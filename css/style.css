@@ -1,0 +1,17 @@
+ h3{
+    color: #0DCAF0;
+}
+strong{
+    color: #0DCAF0;
+}
+#word {
+    font-weight: 600;
+    font-size: 40px;
+    color: aliceblue !important;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.dic-body{
+    /* text-align: center; */
+    /* border-radius: 25PX; */
+    box-shadow:1px 2px 11px 3px #625858;
+}
