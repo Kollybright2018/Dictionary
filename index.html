@@ -13,20 +13,16 @@
     <div class="container-fluid">
         <div class="container bg-light p-5">
             <div class="row justify-content-center ">
-                <!-- <div class="col-md-4 ">
-                    <div class="inner-col">
-
-                    </div>
-                </div> -->
-
-                <div class="col-md-5 col-sm-10 rounded-top  pill">
+              
+                <div class="col-md-4 col-sm-12 rounded-top  pill">
                     <div class="inner-col dic-body">
                         <div class="card dic-body">
                             <div class="card-header  bg-info">
                                 <div class="search">
+                                    <h4 class="text-center">English Dictionary</h4>
                                     <form action="" method="" id="search_form">
                                         <div class="input-group">
-                                          <input type="text" name="search_text" class="form-control"  id="search_text">
+                                          <input type="text" placeholder="Search a word " name="search_text" class="form-control text-center"  id="search_text">
                                          <button id="sub" class="input-group-text" type="submit"> <i class="fas fa-search"></i></button>
                                         </div>
                                     </form>
@@ -38,34 +34,16 @@
                             </div>
                             <div class="card-content  p-3">
                                 <div id="display">
-                                    <!-- <button id="play"></button> -->
-                                    <span id="text"></span>
-                                    <span id="part"></span>
-                                     <span id="phonetic"></span>
-                                     <span id="def"></span>
-                                    <span id="example"></span>
-                                    <span id="synonyms"></span>
-                                    <span id="antonmys"></span>
+                                
+                                   
                                 </div>
 
-
-          
-                                <!-- <p class="phonetic"> hel-lo  || hael <i class="far fa-volume-down text-danger"></i>, he-\</p>
-                               <p id="plura"> <i> plural</i> <b>Hellos</b> </p>
-                               <h3 id="defination">Defination</h3>
-                               <p id="meaning">An expression  or gesture of greeting - usedAn expression  or gesture of greeting - used</p>
-                               <h3>Synonyms & Antonyms</h3>
-                               <strong> Synonyms</strong>
-                               <p id="synonyms">greeting, salutation</p>
-                               <strong> Antonyms</strong>
-                               <p id="antonmys">greeting, salutation</p>
-                               <h3>Examples</h3>
-                               <p id="example">They Welcome with <i>hello</i></p>
-                               <h3>first Known Use</h3>
-                               <p id="history">1984 </p> -->
-
                             </div>
-                            <div class="card-footer"></div>
+                            <div class="card-footer">
+                                <strong class="text-center text-danger d-block ">Kollybright &copy; 2022</strong>
+                                <!-- <p class="text-center " > <b> Kollybright 2022 </b></p> -->
+                               
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,18 +53,14 @@
 
     <!-- <script src="Js/script.js" type="javascript"></script> -->
     <script>
-        window.addEventListener("load", (event) => {
-    const statusDisplay = document.getElementById("status");
-    statusDisplay.textContent = navigator.onLine ? "Online" : "OFFline";
-    console.log(statusDisplay);
-});
+
 
 function getid(id, display) {
     id = document.getElementById(id)
     id.innerHTML = display
 }
 
-let no = 0;
+let no = 0; // Numbering var
 
 let p = '<audio  control class=""> <source src="images/here.mp3" type="audio/ogg">  <source src="images/here.mp3" type="audio/mpeg"> </audio>'
 function play(link, id) {
@@ -94,8 +68,13 @@ function play(link, id) {
     id.innerHTML = '<audio  style="display:none" controls autoplay  > <source src="' + link + ' " type="audio/ogg">  <source src="' + link + '" type="audio/mpeg"> </audio>'
 }
 
+
+// 
+let message = ''
+let title = ''
 // element
 let span = "";
+let text_input = "";
 let sub = document.getElementById('sub');
 // form data
 let form = document.getElementById("search_form");
@@ -114,15 +93,16 @@ async function dictionary(input) {
     getid('word', text.value)
     // Check weather the input word is Available
     if (data.length == 0 || data.length == undefined) {
-        let message = data['message'];
-        let title = data['title']
+         message = data['message'];
+         title = data['title']
         getid('message', message);
         getid('title', title);
     } else {
+       no=0
         for (let i = 0; i < data.length; i++) {
-
-            span += "<p>" + data[i]['word'] + "<br>" + "<span> <b> " + data[i]['meanings'][0]['partOfSpeech'] + "</b><br>";
-            getid('text', span)
+           
+            span +=  data[i]['word'] + "<br>" + "<span> <b> " + data[i]['meanings'][0]['partOfSpeech'] + "</b><br>";
+            // getid('text', span)
             for (let p = 0; p < data[i]['phonetics'].length; p++) {
                 if ('text' in data[i]['phonetics'][p] && 'audio' in data[i]['phonetics'][p]) {
                     // span += "<span>" + data[i]['phonetics'][p]['text'] + "  " +  '<i class="fas fa-volume-up"></i>'  + "  " + "</span>"         
@@ -136,15 +116,17 @@ async function dictionary(input) {
                 }
             } // Phonetics loop
             for (let m = 0; m < data[i]['meanings'].length; m++) {
-                span += "<br> <b>" + data[i]['meanings'][m]['partOfSpeech'] + "</b>"
+                     
+                    span += "<br> <b>" + data[i]['meanings'][m]['partOfSpeech'] + "</b>"
                 for (let d = 0; d < data[i]['meanings'][m]['definitions'].length; d++) {
-                    no++
+                  no++
+                  
                     span += "<br> <b class='text-info'>" + no + " Defination </b><br>" + '' + " <span>" + data[i]['meanings'][m]['definitions'][d]['definition'] + "</span> "
                     if ('example' in data[i]['meanings'][m]['definitions'][d]) {
                         span += "<br><br> <span> <i> Example: " + data[i]['meanings'][m]['definitions'][d]['example'] + " </i></span> <br>"
                     }
                 }  // Defination for
-
+               
                 if ('synonyms' in data[i]['meanings'][m]) {
 
                     if (data[i]['meanings'][m]['synonyms'].length !=0) {
@@ -165,10 +147,18 @@ async function dictionary(input) {
             } //meanings loo
 
             span += "</p>" // Closing of first p tag
-
+         
         } // i for
-        // getid('display', span)
+       
+        getid('display', span)
 
+        if (data['message']=== undefined  ) {
+            message = ''
+         title = ''
+         span=''
+         getid('message', message);
+        getid('title', title);
+        }
     } // else (if word found)
 
 }
@@ -176,13 +166,22 @@ async function dictionary(input) {
 // console.log(text);
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    // check weather system is connected
+    if (! navigator.onLine) {
+   alert("!!! Connection Problem Check, your connection and try again.")
+}
     dictionary(text);
 
-    // sub.addEventListener('click', () => {
-    //     span = '';
-    //     window.location.reload()
-    //     //   dictionary(text);
-    // })
+    sub.addEventListener('click', () => {
+       span = '';
+        message = '' //error message
+         title = ''  //error title
+    
+         getid('message', message);
+        getid('title', title);
+       
+    })
     // fetch("https://api.dictionaryapi.dev/api/v2/entries/en/"+text.value, {
     //     method: "GET"
     // })
